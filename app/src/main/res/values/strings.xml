@@ -3,4 +3,7 @@
     <string name="name">Name:</string>
     <string name="rank">#</string>
     <string name="best_language">Best language: %1$s (%2$s)</string>
+    <string name="completed">Completed Challenges</string>
+    <string name="authored">Authored Challenges</string>
+    <string name="sort">Sort by rank</string>
 </resources>

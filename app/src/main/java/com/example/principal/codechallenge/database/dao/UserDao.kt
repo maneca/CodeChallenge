@@ -10,7 +10,7 @@ import com.example.principal.codechallenge.UserDatabase
 @Dao
 interface UserDao {
 
-    @Query("SELECT * FROM user ORDER BY time asc LIMIT 5")
+    @Query("SELECT * FROM user ORDER BY time desc LIMIT 5")
     fun getLastFive(): LiveData<List<UserDatabase>>
 
 

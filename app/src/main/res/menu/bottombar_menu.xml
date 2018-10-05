@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottombaritem_completed"
+        android:icon="@drawable/completed"
+        android:title="@string/completed"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/bottombaritem_authored"
+        android:icon="@drawable/authored"
+        android:title="@string/authored"
+        app:showAsAction="ifRoom"/>
+
+</menu>

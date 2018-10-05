@@ -2,6 +2,7 @@ package com.example.principal.codechallenge.dependencyInjection
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.example.principal.codechallenge.viewmodels.ChallengesViewModel
 import com.example.principal.codechallenge.viewmodels.UserViewModel
 import dagger.Binds
 import dagger.Module
@@ -14,6 +15,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(UserViewModel::class)
     abstract fun bindJokeViewModel(userViewModel: UserViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChallengesViewModel::class)
+    abstract fun bindChallengesViewModel(challengesViewModel: ChallengesViewModel): ViewModel
 
 
     @Binds

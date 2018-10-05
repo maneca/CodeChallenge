@@ -21,7 +21,7 @@ class CodeChallengeApp : Application(), HasActivityInjector {
             // You should not init your app in this process.
             return;
         }
-        LeakCanary.install(this);
+        LeakCanary.install(this)
 
         AppInjector().init(this)
     }

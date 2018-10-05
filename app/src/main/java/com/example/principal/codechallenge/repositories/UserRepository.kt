@@ -6,30 +6,26 @@ import com.example.principal.codechallenge.User
 import com.example.principal.codechallenge.UserDatabase
 import com.example.principal.codechallenge.database.dao.UserDao
 import com.example.principal.codechallenge.webservices.Webservices
+import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import javax.inject.Inject
-import java.util.concurrent.Callable
 import java.util.concurrent.Executor
+import javax.inject.Inject
 
 class UserRepository @Inject constructor(private var webservices: Webservices, private var userDao: UserDao, private var executor: Executor){
 
 
     fun getLast5Users(): LiveData<List<UserDatabase>>{
 
-        executor.execute {
-            Log.d("JMF", userDao.getNumber().toString())
-        }
-
         return userDao.getLastFive()
     }
 
     fun getUserFromServer(){
 
-        webservices.getUser("Unnamed").enqueue(object: Callback<User> {
+        webservices.getUser("Voile").enqueue(object: Callback<User> {
             override fun onFailure(call: Call<User>, t: Throwable) {
-                Log.d("User-error", t.toString())
+                Log.d("JMF-error", t.toString())
             }
 
             override fun onResponse(call: Call<User>, response: Response<User>) {
@@ -39,16 +35,33 @@ class UserRepository @Inject constructor(private var webservices: Webservices, p
 
                     val name = user?.name
 
-                    val userDatabase = UserDatabase(user!!.username, name, user.leaderboardPosition, "java", 122, System.currentTimeMillis())
+                    val(lang, points) = getBestLanguage(user!!.ranks.getAsJsonObject("languages"))
+
+                    val userDatabase = UserDatabase(user.username, name, user.leaderboardPosition, lang.capitalize(), points, System.currentTimeMillis())
 
                     executor.execute {
                         userDao.insertUser(userDatabase)
                     }
 
-                    Log.d("User-JMF", user.toString())
                 }
             }
 
         })
+    }
+
+    private fun getBestLanguage(languages: JsonObject): Pair<String, Int>{
+
+        var lang = ""
+        var points = 0
+
+        for(key in languages.keySet()){
+
+            if(languages.getAsJsonObject(key).get("score").asInt > points){
+                points = languages.getAsJsonObject(key).get("score").asInt
+                lang = key
+            }
+        }
+
+        return Pair(lang, points)
     }
 }

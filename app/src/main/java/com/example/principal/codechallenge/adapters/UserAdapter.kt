@@ -7,9 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.principal.codechallenge.R
 import com.example.principal.codechallenge.UserDatabase
+import com.example.principal.codechallenge.ui.MainActivity
 import kotlinx.android.synthetic.main.user_item_list.view.*
 
-class UserAdapter (val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+class UserAdapter (val context: Context, private val activity: MainActivity) : RecyclerView.Adapter<ViewHolder>() {
 
     var items: List<UserDatabase> = listOf()
 
@@ -24,6 +25,12 @@ class UserAdapter (val context: Context) : RecyclerView.Adapter<ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun sortbyRank(){
+
+        items = items.sortedBy { it.rank }
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.user_item_list, parent, false))
     }
@@ -32,6 +39,8 @@ class UserAdapter (val context: Context) : RecyclerView.Adapter<ViewHolder>() {
         holder.user_name?.text = items.get(position).username
         holder.rank?.text = items.get(position).rank.toString()
         holder.best_lang?.text = String.format(context.resources.getString(R.string.best_language), items.get(position).language, items.get(position).points)
+
+        holder.cardView.setOnClickListener { activity.onUserItemClick(items.get(position).username) }
     }
 }
 
@@ -39,4 +48,5 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val user_name = view.user_name
     val rank = view.rank
     val best_lang = view.best_language
+    val cardView = view.cardview
 }
