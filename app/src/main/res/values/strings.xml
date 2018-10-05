@@ -6,4 +6,5 @@
     <string name="completed">Completed Challenges</string>
     <string name="authored">Authored Challenges</string>
     <string name="sort">Sort by rank</string>
+    <string name="search">Search</string>
 </resources>

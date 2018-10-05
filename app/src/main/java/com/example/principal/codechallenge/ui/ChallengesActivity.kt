@@ -72,7 +72,6 @@ class ChallengesActivity: AppCompatActivity(), Injectable, BottomNavigationView.
         return false
     }
 
-
     override fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment> {
         return dispatchingAndroidInjector
     }
