@@ -1,6 +1,7 @@
 package com.example.principal.codechallenge.dependencyInjection
 
-import com.example.principal.codechallenge.ui.ChallengesFragment
+import com.example.principal.codechallenge.ui.AuthoredChallengesFragment
+import com.example.principal.codechallenge.ui.CompletedChallengesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,6 +10,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentModule {
 
     @ContributesAndroidInjector
-    internal abstract fun contributeChallengesFragment(): ChallengesFragment
+    internal abstract fun contributeCompletedChallengesFragment(): CompletedChallengesFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeAuthoredChallengesFragment(): AuthoredChallengesFragment
 
 }

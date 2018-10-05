@@ -8,9 +8,9 @@ import com.google.gson.JsonObject
 
 data class User(var username: String, var name: String, var honor: Int, var clan: String, var leaderboardPosition: Int, var skills: List<String>, var ranks: JsonObject, var codeChallenages: JsonObject)
 
-data class Challenges(var id: String, var name: String, var slug: String, var completedLanguages: List<String>, var completedAt: String)
+data class Challenge(var id: String, var name: String, var slug: String, var completedLanguages: List<String>, var completedAt: String)
 
-data class CompletedChallanges(var totalPages: Int, var totalItems: Int, var data: List<Challenges>)
+data class CompletedChallanges(var totalPages: Int, var totalItems: Int, var data: List<Challenge>)
 
 // ROOM ENTITIES
 

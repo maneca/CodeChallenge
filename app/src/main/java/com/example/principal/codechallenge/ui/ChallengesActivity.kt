@@ -13,10 +13,11 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.member_layout.*
 import javax.inject.Inject
 
-class MemberUI: AppCompatActivity(), Injectable, BottomNavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector {
+class ChallengesActivity: AppCompatActivity(), Injectable, BottomNavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector {
 
     private val TAG_FRAGMENT_COMPLETED = "tag_frag_completed"
     private val TAG_FRAGMENT_AUTHORED = "tag_frag_authored"
+    private lateinit var bundle: Bundle
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
@@ -26,9 +27,15 @@ class MemberUI: AppCompatActivity(), Injectable, BottomNavigationView.OnNavigati
         setContentView(R.layout.member_layout)
         AndroidInjection.inject(this)
 
-        getSupportFragmentManager()
+        val completedChallengesFragment = CompletedChallengesFragment()
+        bundle = Bundle()
+        bundle.putString("username", intent.getStringExtra("username"))
+        completedChallengesFragment.arguments = bundle
+
+        supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frame_fragmentholder, ChallengesFragment(), TAG_FRAGMENT_COMPLETED)
+                .addToBackStack(null)
+                .replace(R.id.frame_fragmentholder, completedChallengesFragment, TAG_FRAGMENT_COMPLETED)
                 .commit()
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
@@ -39,17 +46,27 @@ class MemberUI: AppCompatActivity(), Injectable, BottomNavigationView.OnNavigati
         when(item.itemId){
 
             R.id.bottombaritem_completed -> {
-                getSupportFragmentManager()
+
+                val completedChallengesFragment = CompletedChallengesFragment()
+                completedChallengesFragment.arguments = bundle
+
+                supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.frame_fragmentholder, ChallengesFragment(), TAG_FRAGMENT_COMPLETED)
+                        .addToBackStack(null)
+                        .replace(R.id.frame_fragmentholder, completedChallengesFragment, TAG_FRAGMENT_COMPLETED)
                         .commit()
                 return true
             }
 
             R.id.bottombaritem_authored -> {
-                getSupportFragmentManager()
+
+                val authoredChallengesFragment = AuthoredChallengesFragment()
+                authoredChallengesFragment.arguments = bundle
+
+                supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.frame_fragmentholder, ChallengesFragment(), TAG_FRAGMENT_AUTHORED)
+                        .addToBackStack(null)
+                        .replace(R.id.frame_fragmentholder, authoredChallengesFragment, TAG_FRAGMENT_AUTHORED)
                         .commit()
                 return true
             }

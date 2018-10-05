@@ -70,11 +70,15 @@ dependencies {
     // cardview
     implementation 'com.android.support:cardview-v7:28.0.0'
 
+    // PAGING
+    implementation 'android.arch.paging:runtime:1.0.1'
+
     // TO DEBUG THE ROOM DATABASE
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.1'
 
     // OKHTTP
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 
     // LEAK CANARY
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'

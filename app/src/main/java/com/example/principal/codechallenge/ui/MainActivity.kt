@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), Injectable, UserCallback {
 
     override fun onUserItemClick(username: String) {
 
-        val intent = Intent(this, MemberUI::class.java)
+        val intent = Intent(this, ChallengesActivity::class.java)
 
         intent.putExtra("username", username)
         startActivity(intent)

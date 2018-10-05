@@ -1,7 +1,7 @@
 package com.example.principal.codechallenge.dependencyInjection
 
+import com.example.principal.codechallenge.ui.ChallengesActivity
 import com.example.principal.codechallenge.ui.MainActivity
-import com.example.principal.codechallenge.ui.MemberUI
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -14,6 +14,6 @@ abstract class  ActivityModule {
     internal abstract fun contributeMainActivity(): MainActivity
 
     @ContributesAndroidInjector
-    internal abstract fun contributeMemberUiActivity(): MemberUI
+    internal abstract fun contributeMemberUiActivity(): ChallengesActivity
 
 }
