@@ -34,7 +34,6 @@ class ChallengesActivity: AppCompatActivity(), Injectable, BottomNavigationView.
 
         supportFragmentManager
                 .beginTransaction()
-                .addToBackStack(null)
                 .replace(R.id.frame_fragmentholder, completedChallengesFragment, TAG_FRAGMENT_COMPLETED)
                 .commit()
 
@@ -52,7 +51,6 @@ class ChallengesActivity: AppCompatActivity(), Injectable, BottomNavigationView.
 
                 supportFragmentManager
                         .beginTransaction()
-                        .addToBackStack(null)
                         .replace(R.id.frame_fragmentholder, completedChallengesFragment, TAG_FRAGMENT_COMPLETED)
                         .commit()
                 return true
@@ -65,7 +63,6 @@ class ChallengesActivity: AppCompatActivity(), Injectable, BottomNavigationView.
 
                 supportFragmentManager
                         .beginTransaction()
-                        .addToBackStack(null)
                         .replace(R.id.frame_fragmentholder, authoredChallengesFragment, TAG_FRAGMENT_AUTHORED)
                         .commit()
                 return true

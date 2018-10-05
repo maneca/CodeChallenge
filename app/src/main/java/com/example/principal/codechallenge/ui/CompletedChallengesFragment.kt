@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.principal.codechallenge.R
-import com.example.principal.codechallenge.adapters.ChallengePagedAdapter
+import com.example.principal.codechallenge.adapters.CompleteChallengePagedAdapter
 import com.example.principal.codechallenge.dependencyInjection.Injectable
 import com.example.principal.codechallenge.dependencyInjection.ViewModelFactory
 import com.example.principal.codechallenge.viewmodels.ChallengesViewModel
@@ -35,13 +35,13 @@ class CompletedChallengesFragment: Fragment(), Injectable {
         super.onActivityCreated(savedInstanceState)
 
         challenge_recyclerview.layoutManager = LinearLayoutManager(context)
-        challenge_recyclerview.adapter = ChallengePagedAdapter(context)
+        challenge_recyclerview.adapter = CompleteChallengePagedAdapter(context)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChallengesViewModel::class.java)
-        viewModel.init(username)
+        viewModel.initCompletedChallenge(username)
         viewModel.getCompletedChallenges().observe(this, Observer {
 
-            (challenge_recyclerview.adapter as ChallengePagedAdapter).submitList(it)
+            (challenge_recyclerview.adapter as CompleteChallengePagedAdapter).submitList(it)
         })
 
     }

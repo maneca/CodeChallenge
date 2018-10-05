@@ -10,15 +10,15 @@ import com.example.principal.codechallenge.Challenge
 import com.example.principal.codechallenge.R
 import kotlinx.android.synthetic.main.challenge_item_list.view.*
 
-class ChallengePagedAdapter(private val context: Context?): PagedListAdapter<Challenge, ChallengePagedAdapter.ChallengeViewHolder>(ChallengeDiffCallback()) {
+class CompleteChallengePagedAdapter(private val context: Context?): PagedListAdapter<Challenge, CompleteChallengePagedAdapter.ChallengeViewHolder>(CompleteChallengeDiffCallback()) {
 
-    override fun onBindViewHolder(holderPerson: ChallengeViewHolder, position: Int) {
-        val person = getItem(position)
+    override fun onBindViewHolder(challengeHolder: ChallengeViewHolder, position: Int) {
+        val challenge = getItem(position)
 
-        if (person == null) {
-            holderPerson.clear()
+        if (challenge == null) {
+            challengeHolder.clear()
         } else {
-            holderPerson.bind(person)
+            challengeHolder.bind(challenge)
         }
     }
 

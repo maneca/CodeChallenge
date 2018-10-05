@@ -23,7 +23,7 @@ class UserRepository @Inject constructor(private var webservices: Webservices, p
 
     fun getUserFromServer(){
 
-        webservices.getUser("Voile").enqueue(object: Callback<User> {
+        webservices.getUser("g964").enqueue(object: Callback<User> {
             override fun onFailure(call: Call<User>, t: Throwable) {
                 Log.d("JMF-error", t.toString())
             }

@@ -20,5 +20,8 @@ class DatabaseModule {
     @Singleton @Provides
     fun provideUserDao(appDatabase: AppDatabase) = appDatabase.userDao()
 
+    @Singleton @Provides
+    fun provideAuthoredChallengesDao(appDatabase: AppDatabase) = appDatabase.authoredChallengesDao()
+
 
 }

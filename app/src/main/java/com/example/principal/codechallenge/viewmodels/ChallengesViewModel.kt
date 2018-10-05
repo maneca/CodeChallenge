@@ -5,22 +5,23 @@ import android.arch.lifecycle.ViewModel
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import com.example.principal.codechallenge.Challenge
-import com.example.principal.codechallenge.repositories.ChallengeDataFactory
+import com.example.principal.codechallenge.repositories.AuthoredChallengesRepository
+import com.example.principal.codechallenge.repositories.CompletedChallengeDataFactory
 import com.example.principal.codechallenge.webservices.Webservices
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
 
-class ChallengesViewModel @Inject constructor(var executor: Executor, var services: Webservices): ViewModel(){
+class ChallengesViewModel @Inject constructor(private var executor: Executor, private var services: Webservices, private var repo: AuthoredChallengesRepository): ViewModel(){
 
     private lateinit var completedChallanges: LiveData<PagedList<Challenge>>
 
-    fun init(username: String) {
+    fun initCompletedChallenge(username: String) {
 
-        val feedDataFactory = ChallengeDataFactory(services,username)
+        val feedDataFactory = CompletedChallengeDataFactory(services,username)
 
         val pagedListConfig = PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
+                .setEnablePlaceholders(true)
                 .setInitialLoadSizeHint(10)
                 .setPageSize(20).build()
 
@@ -31,6 +32,10 @@ class ChallengesViewModel @Inject constructor(var executor: Executor, var servic
 
     }
 
+
     fun getCompletedChallenges() = completedChallanges
+
+    fun getAuthoredChallenges(username: String) = repo.getAuthoredChallenges(username)
+
 
 }

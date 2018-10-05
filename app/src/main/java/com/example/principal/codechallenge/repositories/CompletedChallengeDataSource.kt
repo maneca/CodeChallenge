@@ -1,7 +1,6 @@
 package com.example.principal.codechallenge.repositories
 
 import android.arch.paging.PageKeyedDataSource
-import android.util.Log
 import com.example.principal.codechallenge.Challenge
 import com.example.principal.codechallenge.CompletedChallanges
 import com.example.principal.codechallenge.webservices.Webservices
@@ -9,14 +8,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ChallengeDataSource constructor(private var services: Webservices, private var username: String): PageKeyedDataSource<Int, Challenge>() {
+class CompletedChallengeDataSource constructor(private var services: Webservices, private var username: String): PageKeyedDataSource<Int, Challenge>() {
 
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Challenge>) {
 
         services.getCompletedChallenges(username, 0).enqueue(object: Callback<CompletedChallanges>{
             override fun onFailure(call: Call<CompletedChallanges>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
 
             override fun onResponse(call: Call<CompletedChallanges>, response: Response<CompletedChallanges>) {
@@ -34,9 +33,7 @@ class ChallengeDataSource constructor(private var services: Webservices, private
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Challenge>) {
 
-        Log.i("JMF-paging", "Loading Rang " + params.key + " Count " + params.requestedLoadSize)
-
-        services.getCompletedChallenges(username, 0).enqueue(object: Callback<CompletedChallanges>{
+        services.getCompletedChallenges(username, params.key).enqueue(object: Callback<CompletedChallanges>{
             override fun onFailure(call: Call<CompletedChallanges>, t: Throwable) {
 
             }
