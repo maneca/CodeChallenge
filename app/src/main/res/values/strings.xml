@@ -7,6 +7,7 @@
     <string name="authored">Authored Challenges</string>
     <string name="sort">Sort by rank</string>
     <string name="search">Search</string>
+    <string name="languages">Languages:</string>
 
     <string name="category">Category:</string>
     <string name="url">URL:</string>

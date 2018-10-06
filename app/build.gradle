@@ -73,7 +73,7 @@ dependencies {
     // PAGING
     implementation 'android.arch.paging:runtime:1.0.1'
 
-    // TO DEBUG THE ROOM DATABASE
+    // TO DEBUG ROOM DATABASE
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.1'
 
     // OKHTTP
@@ -88,6 +88,7 @@ dependencies {
 
     // ESPRESSO
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
 }
