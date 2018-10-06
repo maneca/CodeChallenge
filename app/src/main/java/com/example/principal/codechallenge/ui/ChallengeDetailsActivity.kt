@@ -1,5 +1,6 @@
 package com.example.principal.codechallenge.ui
 
+import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -38,6 +39,18 @@ class ChallengeDetailsActivity: AppCompatActivity(), Injectable {
             total_completed.text = it.totalCompleted.toString()
             total_stars.text = it.totalStars.toString()
             vote_score.text = it.voteScore.toString()
+        })
+
+        viewModel.getNetworkState().observe(this, Observer{
+            if(it!!.state == "ERROR" || it.state == "FAILED") {
+
+                val aDialog = AlertDialog.Builder(this@ChallengeDetailsActivity).setMessage(it.errorMessage).setTitle(it.state)
+                        .setNeutralButton("Close") { _, _ ->
+                            finish()
+                        }
+                aDialog.create()
+                aDialog.show()
+            }
         })
 
 

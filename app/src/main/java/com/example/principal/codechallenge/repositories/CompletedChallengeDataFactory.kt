@@ -20,5 +20,5 @@ class CompletedChallengeDataFactory constructor(private var services: Webservice
         return dataSourceCompleted
     }
 
-    //fun getLiveData() = mutableLiveData
+    fun getMutableLiveData() = mutableLiveData
 }

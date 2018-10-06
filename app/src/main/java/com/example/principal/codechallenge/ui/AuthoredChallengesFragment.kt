@@ -1,5 +1,6 @@
 package com.example.principal.codechallenge.ui
 
+import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -24,26 +25,38 @@ class AuthoredChallengesFragment: Fragment(), Injectable, ChallengeCallback {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: ChallengesViewModel
-    private lateinit var username: String
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        username = arguments!!.getString("username")
 
         return inflater.inflate(R.layout.recyclerview_layout, container, false)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val username = arguments!!.getString("username")
+
         challenge_recyclerview.layoutManager = LinearLayoutManager(context)
         challenge_recyclerview.adapter = AuthoredChallengePagedAdapter(context, this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChallengesViewModel::class.java)
-        viewModel.getAuthoredChallenges(username).observe(this, Observer {
+        viewModel.getAuthoredChallenges(username!!).observe(this, Observer {
 
             (challenge_recyclerview.adapter as AuthoredChallengePagedAdapter).submitList(it)
+        })
+
+        viewModel.getAuthoredNetworkState().observe(this, Observer {
+            if(it!!.state == "ERROR" || it.state == "FAILED") {
+
+                val aDialog = AlertDialog.Builder(context).setMessage(it.errorMessage).setTitle(it.state)
+                        .setNeutralButton("Close") { _, _ ->
+                        }
+                aDialog.create()
+                aDialog.show()
+            }
         })
 
     }

@@ -1,16 +1,19 @@
 package com.example.principal.codechallenge.repositories
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.util.Log
 import com.example.principal.codechallenge.ApiResponse
 import com.example.principal.codechallenge.AuthoredChallenge
+import com.example.principal.codechallenge.NetworkState
 import com.example.principal.codechallenge.database.dao.AuthoredChallengeDao
 import com.example.principal.codechallenge.webservices.Webservices
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,7 +23,7 @@ import javax.inject.Inject
 
 class AuthoredChallengesRepository @Inject constructor(val services: Webservices, val executor: Executor, val challengeDao: AuthoredChallengeDao, val context: Context){
 
-    fun getAuthoredChallenges(username: String): LiveData<PagedList<AuthoredChallenge>>{
+    fun getAuthoredChallenges(username: String, networkState: MutableLiveData<NetworkState>): LiveData<PagedList<AuthoredChallenge>>{
 
         val preferences = context.getSharedPreferences("My_Prefs_File", MODE_PRIVATE)
         val lastUsername = preferences.getString("username", "")
@@ -33,10 +36,10 @@ class AuthoredChallengesRepository @Inject constructor(val services: Webservices
                     challengeDao.deleteAll()
                 }
 
-                getAuthoredChallengesFromServer(username)
+                getAuthoredChallengesFromServer(username, networkState)
             }
         }else if (lastUsername.isEmpty())
-            getAuthoredChallengesFromServer(username)
+            getAuthoredChallengesFromServer(username, networkState)
 
         val factory: DataSource.Factory<Int, AuthoredChallenge> = challengeDao.getAuthoredChallenges()
 
@@ -50,23 +53,32 @@ class AuthoredChallengesRepository @Inject constructor(val services: Webservices
         return pagedListBuilder.build()
     }
 
-    private fun getAuthoredChallengesFromServer(username: String){
+    private fun getAuthoredChallengesFromServer(username: String, networkState: MutableLiveData<NetworkState>){
 
         services.getAuthoredChallenges(username).enqueue(object: Callback<ApiResponse>{
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                Log.d("JMF-error", t.toString())
+                networkState.postValue(NetworkState("ERROR", t.message.toString()))
             }
 
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
 
-                val apiResponse: ApiResponse? = response.body()
+                if(response.isSuccessful){
 
-                val listChallenges = apiResponse!!.data
+                    val apiResponse: ApiResponse? = response.body()
 
-                executor.execute {
+                    val listChallenges = apiResponse!!.data
 
-                    challengeDao.insertAllChallenge(listChallenges)
+                    executor.execute {
+
+                        challengeDao.insertAllChallenge(listChallenges)
+                    }
+                }else{
+                    val parser = JsonParser()
+                    val error = parser.parse(response.errorBody()!!.string()) as JsonObject
+
+                    networkState.postValue(NetworkState("FAILED", error.get("reason").asString.capitalize()))
                 }
+
             }
         })
     }

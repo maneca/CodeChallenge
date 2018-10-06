@@ -27,6 +27,12 @@ data class ChallengeDetails(var id: String, var name: String, var slug: String, 
                             var approvedBy: JsonObject, var description: String, var totalAttempts: Int, var totalCompleted: Int, var totalStars: Int,
                             var voteScore: Int, var tags: List<String>, var contributorsWanted: Boolean, var unresolved: JsonObject)
 
+
+// NETWORK STATE
+
+data class NetworkState(var state: String, var errorMessage: String)
+
+
 // ROOM ENTITIES
 
 @Entity(tableName="user")

@@ -1,5 +1,6 @@
 package com.example.principal.codechallenge.ui
 
+import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -18,17 +19,17 @@ import com.example.principal.codechallenge.viewmodels.ChallengesViewModel
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 import javax.inject.Inject
 
+
 class CompletedChallengesFragment: Fragment(), Injectable, ChallengeCallback {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: ChallengesViewModel
-    private lateinit var username: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        username = arguments!!.getString("username")
+
 
         return inflater.inflate(R.layout.recyclerview_layout, container, false)
     }
@@ -36,14 +37,23 @@ class CompletedChallengesFragment: Fragment(), Injectable, ChallengeCallback {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val username = arguments!!.getString("username")
+
         challenge_recyclerview.layoutManager = LinearLayoutManager(context)
         challenge_recyclerview.adapter = CompleteChallengePagedAdapter(context, this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChallengesViewModel::class.java)
-        viewModel.initCompletedChallenge(username)
+        viewModel.initCompletedChallenge(username!!)
         viewModel.getCompletedChallenges().observe(this, Observer {
 
             (challenge_recyclerview.adapter as CompleteChallengePagedAdapter).submitList(it)
+        })
+
+        viewModel.getNetworkState().observe(this, Observer {
+
+            val aDialog = AlertDialog.Builder(context).setMessage(it!!.errorMessage).setTitle("Error")
+                    .setNeutralButton("Close", null).create()
+            aDialog.show()
         })
 
     }

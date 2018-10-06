@@ -3,6 +3,7 @@ package com.example.principal.codechallenge.dependencyInjection
 import android.app.Application
 import android.content.Context
 import com.example.principal.codechallenge.webservices.Webservices
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -13,8 +14,6 @@ import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-
-
 
 
 @Module(includes = arrayOf(ViewModelModule::class))
@@ -40,9 +39,12 @@ class NetworkModule {
     @Provides
     fun provideClientsWebservices(client: OkHttpClient): Webservices {
 
+        val gson = GsonBuilder().setLenient().create()
+
+
         return Retrofit.Builder()
                 .baseUrl("https://www.codewars.com/api/v1/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()
                 .create(Webservices::class.java)

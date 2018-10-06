@@ -1,12 +1,14 @@
 package com.example.principal.codechallenge.repositories
 
 import android.arch.lifecycle.LiveData
-import android.util.Log
+import android.arch.lifecycle.MutableLiveData
+import com.example.principal.codechallenge.NetworkState
 import com.example.principal.codechallenge.User
 import com.example.principal.codechallenge.UserDatabase
 import com.example.principal.codechallenge.database.dao.UserDao
 import com.example.principal.codechallenge.webservices.Webservices
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,11 +23,12 @@ class UserRepository @Inject constructor(private var webservices: Webservices, p
         return userDao.getLastFive()
     }
 
-    fun getUserFromServer(username: String){
+    fun getUserFromServer(username: String, networkState: MutableLiveData<NetworkState>){
 
         webservices.getUser(username).enqueue(object: Callback<User> {
             override fun onFailure(call: Call<User>, t: Throwable) {
-                Log.d("JMF-error", t.toString())
+
+                networkState.postValue(NetworkState("ERROR", t.message.toString()))
             }
 
             override fun onResponse(call: Call<User>, response: Response<User>) {
@@ -42,7 +45,11 @@ class UserRepository @Inject constructor(private var webservices: Webservices, p
                     executor.execute {
                         userDao.insertUser(userDatabase)
                     }
+                }else{
+                    val parser = JsonParser()
+                    val error = parser.parse(response.errorBody()!!.string()) as JsonObject
 
+                    networkState.postValue(NetworkState("FAILED", error.get("reason").asString.capitalize()))
                 }
             }
 

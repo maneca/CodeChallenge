@@ -21,16 +21,20 @@
 
             </intent-filter>
 
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".ui.SearchableActivity" />
-        </activity>
-        <activity android:name=".ui.ChallengesActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".ui.ChallengesActivity" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+        </activity>
+        <activity android:name=".ui.ChallengesActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
 
         <activity android:name=".ui.ChallengeDetailsActivity">
@@ -41,19 +45,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.SearchableActivity"
-            android:launchMode="singleTop">
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-
-        </activity>
     </application>
 
 </manifest>

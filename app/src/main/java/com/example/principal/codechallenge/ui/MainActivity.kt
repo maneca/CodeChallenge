@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity(), Injectable, UserCallback {
         val inflater = menuInflater
         inflater.inflate(R.menu.options_menu, menu)
 
-        // Associate searchable configuration with the SearchView
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu!!.findItem(R.id.action_search).actionView as SearchView
         searchView.setSearchableInfo(
@@ -63,6 +62,7 @@ class MainActivity : AppCompatActivity(), Injectable, UserCallback {
 
         return true
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
@@ -72,8 +72,6 @@ class MainActivity : AppCompatActivity(), Injectable, UserCallback {
                 (recyclerview.adapter as UserAdapter).sortbyRank()
                 return true
             }
-
-
             else -> return super.onOptionsItemSelected(item)
         }
     }
