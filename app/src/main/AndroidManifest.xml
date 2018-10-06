@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.principal.codechallenge">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".CodeChallengeApp"
         android:allowBackup="true"
@@ -24,6 +26,14 @@
                 android:value=".ui.SearchableActivity" />
         </activity>
         <activity android:name=".ui.ChallengesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.ChallengeDetailsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

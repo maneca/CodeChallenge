@@ -1,5 +1,6 @@
 package com.example.principal.codechallenge.dependencyInjection
 
+import com.example.principal.codechallenge.ui.ChallengeDetailsActivity
 import com.example.principal.codechallenge.ui.ChallengesActivity
 import com.example.principal.codechallenge.ui.MainActivity
 import com.example.principal.codechallenge.ui.SearchableActivity
@@ -19,5 +20,8 @@ abstract class  ActivityModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributeSearchableActivity(): SearchableActivity
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeChallengeDetailsActivity(): ChallengeDetailsActivity
 
 }

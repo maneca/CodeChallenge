@@ -7,4 +7,15 @@
     <string name="authored">Authored Challenges</string>
     <string name="sort">Sort by rank</string>
     <string name="search">Search</string>
+
+    <string name="category">Category:</string>
+    <string name="url">URL:</string>
+    <string name="created_by">Sensei:</string>
+    <string name="description">Description:</string>
+    <string name="total_attempts">Total Attempts:</string>
+    <string name="total_completed">Total Completed:</string>
+    <string name="total_stars">Total Stars:</string>
+    <string name="vote_score">Vote Score:</string>
+
+    <string name="back">Back</string>
 </resources>

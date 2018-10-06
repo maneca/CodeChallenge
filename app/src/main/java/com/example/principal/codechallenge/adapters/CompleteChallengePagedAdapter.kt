@@ -8,9 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.principal.codechallenge.Challenge
 import com.example.principal.codechallenge.R
+import com.example.principal.codechallenge.ui.CompletedChallengesFragment
 import kotlinx.android.synthetic.main.challenge_item_list.view.*
 
-class CompleteChallengePagedAdapter(private val context: Context?): PagedListAdapter<Challenge, CompleteChallengePagedAdapter.ChallengeViewHolder>(CompleteChallengeDiffCallback()) {
+class CompleteChallengePagedAdapter(private val context: Context?, private val fragment: CompletedChallengesFragment): PagedListAdapter<Challenge, CompleteChallengePagedAdapter.ChallengeViewHolder>(CompleteChallengeDiffCallback()) {
 
     override fun onBindViewHolder(challengeHolder: ChallengeViewHolder, position: Int) {
         val challenge = getItem(position)
@@ -18,7 +19,7 @@ class CompleteChallengePagedAdapter(private val context: Context?): PagedListAda
         if (challenge == null) {
             challengeHolder.clear()
         } else {
-            challengeHolder.bind(challenge)
+            challengeHolder.bind(challenge, fragment)
         }
     }
 
@@ -33,10 +34,13 @@ class CompleteChallengePagedAdapter(private val context: Context?): PagedListAda
 
         private val name= view.challenge_name
         private val languages = view.languages
+        private val cardView = view.cardview_challenge
 
-        fun bind(challenge: Challenge) {
+        fun bind(challenge: Challenge, fragment: CompletedChallengesFragment) {
             name.text = challenge.name
             languages.text = challenge.completedLanguages.toString()
+
+            cardView.setOnClickListener { fragment.onChallengeClick(challenge.id) }
         }
 
         fun clear() {

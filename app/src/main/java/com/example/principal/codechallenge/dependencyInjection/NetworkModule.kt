@@ -1,5 +1,7 @@
 package com.example.principal.codechallenge.dependencyInjection
 
+import android.app.Application
+import android.content.Context
 import com.example.principal.codechallenge.webservices.Webservices
 import dagger.Module
 import dagger.Provides
@@ -51,6 +53,14 @@ class NetworkModule {
     fun provideExecutor() : Executor{
         return Executors.newSingleThreadExecutor()
     }
-    
+
+    @Provides
+    @Singleton
+    fun getContext(app: Application): Context {
+
+        return app.applicationContext
+    }
+
+
 }
 

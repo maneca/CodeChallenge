@@ -5,7 +5,7 @@ import android.arch.persistence.room.TypeConverter
 class Converters {
 
     @TypeConverter
-    fun fromArrayString(value: List<String>): String{
+    fun fromListString(value: List<String>): String{
 
         var string = ""
 
@@ -17,7 +17,7 @@ class Converters {
     }
 
     @TypeConverter
-    fun toArrayString(value : String): List<String>{
+    fun toListString(value : String): List<String>{
 
         val elements = mutableListOf<String>()
 

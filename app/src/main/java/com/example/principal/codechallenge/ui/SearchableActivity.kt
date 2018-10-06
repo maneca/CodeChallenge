@@ -45,7 +45,6 @@ class SearchableActivity: AppCompatActivity(), Injectable {
     }
 
     private fun showResults(username: String) {
-        // Query your data set and show results
 
         val intent = Intent(this, ChallengesActivity::class.java)
 

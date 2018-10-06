@@ -1,6 +1,7 @@
 package com.example.principal.codechallenge.webservices
 
 import com.example.principal.codechallenge.ApiResponse
+import com.example.principal.codechallenge.ChallengeDetails
 import com.example.principal.codechallenge.CompletedChallanges
 import com.example.principal.codechallenge.User
 import retrofit2.Call
@@ -18,4 +19,8 @@ interface Webservices {
 
     @GET("users/{id_or_username}/code-challenges/authored")
     fun getAuthoredChallenges(@Path("id_or_username") id_or_username: String): Call<ApiResponse>
+
+
+    @GET("code-challenges/{id_or_slug}")
+    fun getChallengeDetails(@Path("id_or_slug") id_or_slug: String): Call<ChallengeDetails>
 }

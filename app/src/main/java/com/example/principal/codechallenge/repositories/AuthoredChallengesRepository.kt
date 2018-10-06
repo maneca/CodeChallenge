@@ -4,6 +4,8 @@ import android.arch.lifecycle.LiveData
 import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import com.example.principal.codechallenge.ApiResponse
 import com.example.principal.codechallenge.AuthoredChallenge
@@ -15,22 +17,35 @@ import retrofit2.Response
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
-class AuthoredChallengesRepository @Inject constructor(var services: Webservices, var executor: Executor, var challengeDao: AuthoredChallengeDao){
+
+class AuthoredChallengesRepository @Inject constructor(val services: Webservices, val executor: Executor, val challengeDao: AuthoredChallengeDao, val context: Context){
 
     fun getAuthoredChallenges(username: String): LiveData<PagedList<AuthoredChallenge>>{
 
-        executor.execute {
+        val preferences = context.getSharedPreferences("My_Prefs_File", MODE_PRIVATE)
+        val lastUsername = preferences.getString("username", "")
 
-            if(challengeDao.getNrChallenges()>0){
-                challengeDao.deleteAll()
+        if(lastUsername!! != username && !lastUsername.isEmpty()){
+
+            executor.execute {
+
+                if(challengeDao.getNrChallenges()>0){
+                    challengeDao.deleteAll()
+                }
+
+                getAuthoredChallengesFromServer(username)
             }
-        }
-
-        getAuthoredChallengesFromServer(username)
+        }else if (lastUsername.isEmpty())
+            getAuthoredChallengesFromServer(username)
 
         val factory: DataSource.Factory<Int, AuthoredChallenge> = challengeDao.getAuthoredChallenges()
 
         val pagedListBuilder: LivePagedListBuilder<Int, AuthoredChallenge> = LivePagedListBuilder<Int, AuthoredChallenge>(factory, 10)
+
+
+        val editor = preferences.edit()
+        editor.putString("username", username)
+        editor.apply()
 
         return pagedListBuilder.build()
     }
@@ -46,11 +61,11 @@ class AuthoredChallengesRepository @Inject constructor(var services: Webservices
 
                 val apiResponse: ApiResponse? = response.body()
 
-
+                val listChallenges = apiResponse!!.data
 
                 executor.execute {
 
-                    challengeDao.insertAllChallenge(apiResponse!!.data)
+                    challengeDao.insertAllChallenge(listChallenges)
                 }
             }
         })

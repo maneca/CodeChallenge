@@ -8,7 +8,7 @@ import com.example.principal.codechallenge.UserDatabase
 import com.example.principal.codechallenge.database.dao.AuthoredChallengeDao
 import com.example.principal.codechallenge.database.dao.UserDao
 
-@Database(entities = arrayOf(UserDatabase::class, AuthoredChallenge::class), version = 3, exportSchema = false )
+@Database(entities = arrayOf(UserDatabase::class, AuthoredChallenge::class), version = 1, exportSchema = false )
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
 

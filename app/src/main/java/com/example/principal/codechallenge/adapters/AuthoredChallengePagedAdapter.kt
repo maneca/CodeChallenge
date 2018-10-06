@@ -8,16 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.principal.codechallenge.AuthoredChallenge
 import com.example.principal.codechallenge.R
+import com.example.principal.codechallenge.ui.AuthoredChallengesFragment
 import kotlinx.android.synthetic.main.challenge_item_list.view.*
 
-class AuthoredChallengePagedAdapter(private val context: Context?): PagedListAdapter<AuthoredChallenge, AuthoredChallengePagedAdapter.ChallengeViewHolder>(AuthoredChallengeDiffCallback()) {
+class AuthoredChallengePagedAdapter(private val context: Context?, private var fragment: AuthoredChallengesFragment): PagedListAdapter<AuthoredChallenge, AuthoredChallengePagedAdapter.ChallengeViewHolder>(AuthoredChallengeDiffCallback()) {
+
     override fun onBindViewHolder(challengeHolder: ChallengeViewHolder, position: Int) {
         val challenge = getItem(position)
 
         if (challenge == null) {
             challengeHolder.clear()
         } else {
-            challengeHolder.bind(challenge)
+            challengeHolder.bind(challenge, fragment)
         }
     }
 
@@ -32,10 +34,14 @@ class AuthoredChallengePagedAdapter(private val context: Context?): PagedListAda
 
         private val name= view.challenge_name
         private val languages = view.languages
+        private val cardView = view.cardview_challenge
 
-        fun bind(challenge: AuthoredChallenge) {
+        fun bind(challenge: AuthoredChallenge, fragment: AuthoredChallengesFragment) {
+
             name.text = challenge.name
             languages.text = challenge.languages.toString()
+
+            cardView.setOnClickListener { fragment.onChallengeClick(challenge.id) }
         }
 
         fun clear() {
