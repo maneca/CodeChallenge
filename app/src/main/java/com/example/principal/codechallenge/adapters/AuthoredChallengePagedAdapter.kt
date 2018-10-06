@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.example.principal.codechallenge.AuthoredChallenge
 import com.example.principal.codechallenge.R
 import com.example.principal.codechallenge.ui.AuthoredChallengesFragment
+import kotlinx.android.synthetic.main.challenge_details_layout.view.*
 import kotlinx.android.synthetic.main.challenge_item_list.view.*
 
 class AuthoredChallengePagedAdapter(private val context: Context?, private var fragment: AuthoredChallengesFragment): PagedListAdapter<AuthoredChallenge, AuthoredChallengePagedAdapter.ChallengeViewHolder>(AuthoredChallengeDiffCallback()) {
@@ -25,7 +26,7 @@ class AuthoredChallengePagedAdapter(private val context: Context?, private var f
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChallengeViewHolder {
 
-        return ChallengeViewHolder(LayoutInflater.from(context).inflate(R.layout.challenge_item_list,
+        return ChallengeViewHolder(LayoutInflater.from(context).inflate(R.layout.authored_challenge_item_list,
                 parent, false))
     }
 
@@ -33,20 +34,20 @@ class AuthoredChallengePagedAdapter(private val context: Context?, private var f
     class ChallengeViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
         private val name= view.challenge_name
-        private val languages = view.languages
+        private val description = view.description
         private val cardView = view.cardview_challenge
 
         fun bind(challenge: AuthoredChallenge, fragment: AuthoredChallengesFragment) {
 
             name.text = challenge.name
-            languages.text = challenge.languages.toString()
+            description.text = challenge.description
 
             cardView.setOnClickListener { fragment.onChallengeClick(challenge.id) }
         }
 
         fun clear() {
             name.text = null
-            languages.text = null
+            description.text = null
         }
 
     }

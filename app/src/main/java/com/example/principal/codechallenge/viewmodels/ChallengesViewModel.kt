@@ -19,7 +19,7 @@ class ChallengesViewModel @Inject constructor(private var executor: Executor, pr
 
     private lateinit var completedChallanges: LiveData<PagedList<Challenge>>
     private lateinit var networkState: LiveData<NetworkState>
-    private lateinit var authoredNetworkState: MutableLiveData<NetworkState>
+    private val authoredNetworkState: MutableLiveData<NetworkState> = MutableLiveData()
 
     fun initCompletedChallenge(username: String) {
 

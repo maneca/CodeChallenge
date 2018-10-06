@@ -10,6 +10,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.view.View
 import com.example.principal.codechallenge.R
 import com.example.principal.codechallenge.dependencyInjection.Injectable
 import com.example.principal.codechallenge.dependencyInjection.ViewModelFactory
@@ -17,7 +18,7 @@ import com.example.principal.codechallenge.viewmodels.UserViewModel
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.member_layout.*
+import kotlinx.android.synthetic.main.challenges_layout.*
 import javax.inject.Inject
 
 
@@ -37,8 +38,15 @@ class ChallengesActivity: AppCompatActivity(), Injectable, BottomNavigationView.
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.member_layout)
+        setContentView(R.layout.challenges_layout)
         AndroidInjection.inject(this)
+
+        spinnerProgressBar.visibility = View.VISIBLE
+
+        if(intent.getStringExtra("username")!= null){
+
+            startFragments(intent.getStringExtra("username"))
+        }
 
     }
 
@@ -67,22 +75,30 @@ class ChallengesActivity: AppCompatActivity(), Injectable, BottomNavigationView.
                     aDialog.create()
                     aDialog.show()
                 }else{
-                    val completedChallengesFragment = CompletedChallengesFragment()
-                    bundle = Bundle()
-                    bundle.putString("username", username)
 
-                    completedChallengesFragment.arguments = bundle
-
-                    supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.frame_fragmentholder, completedChallengesFragment, TAG_FRAGMENT_COMPLETED)
-                            .commit()
-
-                    bottomNavigationView.setOnNavigationItemSelectedListener(this)
+                    startFragments(username)
                 }
             })
 
         }
+    }
+
+    private fun startFragments(username: String){
+
+        spinnerProgressBar.visibility = View.GONE
+
+        val completedChallengesFragment = CompletedChallengesFragment()
+        bundle = Bundle()
+        bundle.putString("username", username)
+
+        completedChallengesFragment.arguments = bundle
+
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_fragmentholder, completedChallengesFragment, TAG_FRAGMENT_COMPLETED)
+                .commit()
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

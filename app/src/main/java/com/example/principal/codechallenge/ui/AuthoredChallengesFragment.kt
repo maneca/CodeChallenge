@@ -37,6 +37,8 @@ class AuthoredChallengesFragment: Fragment(), Injectable, ChallengeCallback {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        spinnerProgressBar.visibility = View.VISIBLE
+
         val username = arguments!!.getString("username")
 
         challenge_recyclerview.layoutManager = LinearLayoutManager(context)
@@ -46,6 +48,8 @@ class AuthoredChallengesFragment: Fragment(), Injectable, ChallengeCallback {
         viewModel.getAuthoredChallenges(username!!).observe(this, Observer {
 
             (challenge_recyclerview.adapter as AuthoredChallengePagedAdapter).submitList(it)
+
+            spinnerProgressBar.visibility = View.GONE
         })
 
         viewModel.getAuthoredNetworkState().observe(this, Observer {

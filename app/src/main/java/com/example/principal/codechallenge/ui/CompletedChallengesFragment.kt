@@ -29,13 +29,13 @@ class CompletedChallengesFragment: Fragment(), Injectable, ChallengeCallback {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-
-
         return inflater.inflate(R.layout.recyclerview_layout, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        spinnerProgressBar.visibility = View.VISIBLE
 
         val username = arguments!!.getString("username")
 
@@ -46,7 +46,9 @@ class CompletedChallengesFragment: Fragment(), Injectable, ChallengeCallback {
         viewModel.initCompletedChallenge(username!!)
         viewModel.getCompletedChallenges().observe(this, Observer {
 
+
             (challenge_recyclerview.adapter as CompleteChallengePagedAdapter).submitList(it)
+            spinnerProgressBar.visibility = View.GONE
         })
 
         viewModel.getNetworkState().observe(this, Observer {

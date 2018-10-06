@@ -34,6 +34,8 @@ class UserRepository @Inject constructor(private var webservices: Webservices, p
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
 
+                    networkState.postValue(NetworkState("OK", ""))
+
                     val user: User? = response.body()
 
                     val name = user?.name
