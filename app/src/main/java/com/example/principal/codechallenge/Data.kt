@@ -23,7 +23,7 @@ data class ApiResponse(var data: List<AuthoredChallenge>)
 // CHALLENGE DETAILS
 
 data class ChallengeDetails(var id: String, var name: String, var slug: String, var category: String, var publishedAt: String, var approvedAt: String,
-                            var languages: List<String>, var url: String, var rank: JSONObject, var createdAt: String, var createdBy: JsonObject,
+                            var languages: List<String>, var url: String, var rank: JSONObject, var createdAt: String, var createdBy: JsonObject?,
                             var approvedBy: JsonObject, var description: String, var totalAttempts: Int, var totalCompleted: Int, var totalStars: Int,
                             var voteScore: Int, var tags: List<String>, var contributorsWanted: Boolean, var unresolved: JsonObject)
 

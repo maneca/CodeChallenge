@@ -33,7 +33,7 @@ class ChallengeDetailsActivity: AppCompatActivity(), Injectable {
             details_name.text = it!!.name
             category.text = it.category
             url.text = it.url
-            created_by.text = it.createdBy.get("username").asString
+            created_by.text = if(it.createdBy == null) "" else  it.createdBy!!.get("username").asString
             description.text = it.description
             total_attempts.text = it.totalAttempts.toString()
             total_completed.text = it.totalCompleted.toString()

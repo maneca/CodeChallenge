@@ -1,5 +1,6 @@
 package com.example.principal.codechallenge.ui
 
+import android.app.AlertDialog
 import android.app.SearchManager
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.SearchView
 import com.example.principal.codechallenge.R
 import com.example.principal.codechallenge.adapters.UserAdapter
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity(), Injectable, UserCallback {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: UserViewModel
+    private lateinit var searchView: SearchView
+    private var username = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +47,27 @@ class MainActivity : AppCompatActivity(), Injectable, UserCallback {
 
             (recyclerview.adapter as UserAdapter).setDataset(it)
         })
+
+        viewModel.getNetworkState().observe(this, Observer {
+
+            spinnerProgressBar.visibility = View.GONE
+
+            if(it!!.state == "ERROR" || it.state == "FAILED"){
+
+                val aDialog = AlertDialog.Builder(this).setMessage(it.errorMessage).setTitle(it.state)
+                        .setNeutralButton("Close"){ _, _ ->
+
+                        }
+                aDialog.create()
+                aDialog.show()
+            }else{
+
+                val intent = Intent(this, ChallengesActivity::class.java)
+                intent.putExtra("username", username)
+                startActivity(intent)
+            }
+        })
+
     }
 
     override fun onResume() {
@@ -56,11 +81,45 @@ class MainActivity : AppCompatActivity(), Injectable, UserCallback {
         inflater.inflate(R.menu.options_menu, menu)
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu!!.findItem(R.id.action_search).actionView as SearchView
+        searchView = menu!!.findItem(R.id.action_search).actionView as SearchView
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(componentName))
 
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+                searchView.isIconified = true
+
+                handleRequest(query)
+
+                return false
+            }
+
+        })
+
         return true
+    }
+
+
+    override fun onNewIntent(intent: Intent) {
+
+        setIntent(intent)
+        searchView.isIconified = true
+    }
+
+    fun handleRequest(query: String){
+
+        spinnerProgressBar.visibility = View.VISIBLE
+        username = query
+        viewModel.getUser(query)
+
     }
 
 

@@ -1,10 +1,5 @@
 package com.example.principal.codechallenge.ui
 
-import android.app.AlertDialog
-import android.app.SearchManager
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -14,7 +9,6 @@ import android.view.View
 import com.example.principal.codechallenge.R
 import com.example.principal.codechallenge.dependencyInjection.Injectable
 import com.example.principal.codechallenge.dependencyInjection.ViewModelFactory
-import com.example.principal.codechallenge.viewmodels.UserViewModel
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -34,8 +28,6 @@ class ChallengesActivity: AppCompatActivity(), Injectable, BottomNavigationView.
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: UserViewModel
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.challenges_layout)
@@ -43,47 +35,8 @@ class ChallengesActivity: AppCompatActivity(), Injectable, BottomNavigationView.
 
         spinnerProgressBar.visibility = View.VISIBLE
 
-        if(intent.getStringExtra("username")!= null){
 
-            startFragments(intent.getStringExtra("username"))
-        }
-
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-
-        handleIntent(intent)
-    }
-
-    private fun handleIntent(intent: Intent) {
-
-        if (Intent.ACTION_SEARCH == intent.action) {
-            val username = intent.getStringExtra(SearchManager.QUERY)
-
-            viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel::class.java)
-            viewModel.getUser(username)
-
-            viewModel.getNetworkState().observe(this, Observer {
-
-                if(it!!.state == "ERROR" || it.state == "FAILED"){
-
-                    val aDialog = AlertDialog.Builder(this@ChallengesActivity).setMessage(it!!.errorMessage).setTitle(it.state)
-                            .setNeutralButton("Close"){ _, _ ->
-                                finish()
-                            }
-                    aDialog.create()
-                    aDialog.show()
-                }else{
-
-                    startFragments(username)
-                }
-            })
-
-        }
-    }
-
-    private fun startFragments(username: String){
+        val username = intent.getStringExtra("username")
 
         spinnerProgressBar.visibility = View.GONE
 
@@ -99,7 +52,9 @@ class ChallengesActivity: AppCompatActivity(), Injectable, BottomNavigationView.
                 .commit()
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
+
     }
+
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
