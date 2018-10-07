@@ -15,6 +15,9 @@ interface Webservices {
     @GET("users/{id_or_username}")
     fun getUser(@Path("id_or_username") id_or_username: String): Call<User>
 
+    @GET("users/{id_or_username}")
+    fun getUserTest(@Path("id_or_username") id_or_username: String): Observable<JsonElement>
+
 
     @GET("users/{id_or_username}/code-challenges/completed")
     fun getCompletedChallenges(@Path("id_or_username") id_or_username: String, @Query("page") page: Int): Call<CompletedChallanges>

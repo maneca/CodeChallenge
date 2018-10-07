@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), Injectable, UserCallback {
 
             spinnerProgressBar.visibility = View.GONE
 
-            if(it!!.state == "ERROR" || it.state == "FAILED"){
+            if(it!!.state == "ERROR"){
 
                 val aDialog = AlertDialog.Builder(this).setMessage(it.errorMessage).setTitle(it.state)
                         .setNeutralButton("Close"){ _, _ ->
