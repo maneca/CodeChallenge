@@ -65,7 +65,7 @@ class ApplicationTests {
             e.printStackTrace()
         }
 
-        onView(withText("Not found")).check(matches(isDisplayed()))
+        onView(withText("ERROR")).check(matches(isDisplayed()))
         onView(withText("CLOSE")).perform(click())
 
     }
