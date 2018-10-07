@@ -19,7 +19,7 @@ class UserRepository @Inject constructor(private var webservices: Webservices, p
 
     fun getUserServer(username: String): Observable<JsonElement>{
 
-        return webservices.getUserTest(username)
+        return webservices.getUser(username)
     }
 
 }

@@ -2,7 +2,6 @@ package com.example.principal.codechallenge.webservices
 
 import com.example.principal.codechallenge.ApiResponse
 import com.example.principal.codechallenge.CompletedChallanges
-import com.example.principal.codechallenge.User
 import com.google.gson.JsonElement
 import io.reactivex.Observable
 import retrofit2.Call
@@ -13,10 +12,7 @@ import retrofit2.http.Query
 interface Webservices {
 
     @GET("users/{id_or_username}")
-    fun getUser(@Path("id_or_username") id_or_username: String): Call<User>
-
-    @GET("users/{id_or_username}")
-    fun getUserTest(@Path("id_or_username") id_or_username: String): Observable<JsonElement>
+    fun getUser(@Path("id_or_username") id_or_username: String): Observable<JsonElement>
 
 
     @GET("users/{id_or_username}/code-challenges/completed")
