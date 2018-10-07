@@ -28,7 +28,8 @@ class ChallengeDetailsActivity: AppCompatActivity(), Injectable {
         AndroidInjection.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChallengeDetailsViewModel::class.java)
-        viewModel.getChallendeDetails(intent.getStringExtra("id")).observe(this, Observer{
+        viewModel.getChallengeDetailsTest(intent.getStringExtra("id"))
+        viewModel.getDetails().observe(this, Observer{
 
             details_name.text = it!!.name
             category.text = it.category
@@ -44,7 +45,7 @@ class ChallengeDetailsActivity: AppCompatActivity(), Injectable {
         viewModel.getNetworkState().observe(this, Observer{
             if(it!!.state == "ERROR" || it.state == "FAILED") {
 
-                val aDialog = AlertDialog.Builder(this@ChallengeDetailsActivity).setMessage(it.errorMessage).setTitle(it.state)
+                val aDialog = AlertDialog.Builder(this).setMessage(it.errorMessage).setTitle(it.state)
                         .setNeutralButton("Close") { _, _ ->
                             finish()
                         }

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.example.principal.codechallenge.webservices.Webservices
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -44,6 +45,7 @@ class NetworkModule {
 
         return Retrofit.Builder()
                 .baseUrl("https://www.codewars.com/api/v1/")
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()
